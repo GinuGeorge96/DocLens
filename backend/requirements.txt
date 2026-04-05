@@ -9,3 +9,4 @@ sentence-transformers
 faiss-cpu
 groq
 python-dotenv
+langchain-text-splitters
