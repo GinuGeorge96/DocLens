@@ -32,3 +32,7 @@ def search_index(query: str, top_k: int = 5) -> list[dict]:
                 "score": score
             })
     return results
+
+def get_all_chunks() -> list[str]:
+    return stored_chunks
+

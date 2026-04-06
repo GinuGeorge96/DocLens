@@ -27,3 +27,6 @@ export const getInsights = (file) => {
     headers: { 'Content-Type': 'multipart/form-data' },
   })
 }
+export const getSurpriseQuestions = () => {
+  return API.post('/surprise')
+}
