@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from routes.upload import router as upload_router
+from routes.qa import router as qa_router
 
 load_dotenv()
 
@@ -16,6 +17,7 @@ app.add_middleware(
 )
 
 app.include_router(upload_router, prefix="/api/v1")
+app.include_router(qa_router, prefix="/api/v1")
 
 @app.get("/")
 def root():
