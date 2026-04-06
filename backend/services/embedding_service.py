@@ -16,10 +16,19 @@ def build_index(chunks: list[str]):
     dimension = embeddings.shape[1]
     faiss_index = faiss.IndexFlatL2(dimension)
     faiss_index.add(embeddings)
-
-def search_index(query: str, top_k: int = 5) -> list[str]:
+def search_index(query: str, top_k: int = 5) -> list[dict]:
     global faiss_index, stored_chunks
     query_embedding = model.encode([query])
     query_embedding = np.array(query_embedding).astype("float32")
-    _, indices = faiss_index.search(query_embedding, top_k)
-    return [stored_chunks[i] for i in indices[0] if i < len(stored_chunks)]
+    distances, indices = faiss_index.search(query_embedding, top_k)
+    
+    results = []
+    for dist, idx in zip(distances[0], indices[0]):
+        if idx < len(stored_chunks):
+            # Convert L2 distance to a 0-100 relevance score
+            score = round(max(0, 100 - float(dist) * 10), 1)
+            results.append({
+                "text": stored_chunks[idx],
+                "score": score
+            })
+    return results

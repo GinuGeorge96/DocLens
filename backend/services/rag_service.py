@@ -5,11 +5,11 @@ from services.embedding_service import search_index
 def answer_question(question: str) -> dict:
     client = Groq(api_key=os.getenv("GROQ_API_KEY"))
     
-    # Step 1: Find relevant chunks from FAISS
-    relevant_chunks = search_index(question, top_k=5)
+    # Step 1: Find relevant chunks from FAISS with scores
+    results = search_index(question, top_k=5)
     
     # Step 2: Build context from chunks
-    context = "\n\n".join(relevant_chunks)
+    context = "\n\n".join([r["text"] for r in results])
     
     # Step 3: Send to Groq LLM
     prompt = f"""You are a helpful assistant. Use the context below to answer the question.
@@ -32,5 +32,6 @@ Answer:"""
 
     return {
         "answer": answer,
-        "sources": relevant_chunks
+        "sources": [r["text"] for r in results],
+        "relevance_scores": [r["score"] for r in results]
     }

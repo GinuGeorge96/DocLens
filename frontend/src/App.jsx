@@ -12,9 +12,19 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <header className="bg-white shadow-sm px-6 py-4">
-        <h1 className="text-xl font-bold text-blue-600">DocLens</h1>
-        <p className="text-sm text-gray-400">Document Intelligence Platform</p>
+      <header className="bg-white shadow-sm px-6 py-4 flex items-center justify-between">
+        <div>
+          <h1 className="text-xl font-bold text-blue-600">DocLens</h1>
+          <p className="text-sm text-gray-400">Document Intelligence Platform</p>
+        </div>
+        {uploadData && (
+          <button
+            onClick={() => setUploadData(null)}
+            className="text-sm text-gray-500 hover:text-red-500 border border-gray-300 hover:border-red-400 px-3 py-1 rounded-lg transition"
+          >
+            Upload new file
+          </button>
+        )}
       </header>
 
       <main className="max-w-7xl mx-auto p-6">
